@@ -15,3 +15,8 @@
 
 ## Quick Start
 
+``` sh
+curl -O https://hyperland.s3.amazon.aws.com/hyper-export
+chmod +x hyper-export
+hyper-export [CONNECTION_STRING]
+```
