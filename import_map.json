@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "hyper-connect": "https://x.nest.land/hyper-connect@0.1.9/deno/mod.ts",
+    "ramda": "https://cdn.skypack.dev/ramda@^0.27.1",
+    "crocks": "https://cdn.skypack.dev/crocks@^0.12.4"
+  }
+}

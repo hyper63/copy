@@ -26,4 +26,4 @@ jobs:
           aws-region: us-east-1
       - name: Upload S3
         run: |
-          aws s3 cp --acl public-read ./hyper-export s3://hyperland
+          aws s3 cp --acl public-read ./hyper-copy s3://hyperland
