@@ -19,7 +19,7 @@
 
 ``` sh
 curl -O https://hyperland.s3.amazon.aws.com/hyper-copy
-chmod +x hyper-export
+chmod +x hyper-copy
 hyper-copy [SRC_CONNECTION_STRING] [TARGET_CONNECTION_STRING]
 ```
 
