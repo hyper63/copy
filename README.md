@@ -1,7 +1,9 @@
 <h1 align="center">⚡️ hyper copy ⚡️</h1>
 <p align="center">Copy documents from one hyper Data Service to another hyper Data Service</p>
 
-<a href="https://github.com/hyper63/copy/actions/workflows/test-and-publish.yml"><img src="https://github.com/hyper63/copy/actions/workflows/test-and-publish.yml/badge.svg" alt="Test" /></a>
+<p align="center">
+  <a href="https://github.com/hyper63/copy/actions/workflows/test-and-publish.yml"><img src="https://github.com/hyper63/copy/actions/workflows/test-and-publish.yml/badge.svg" alt="Test" /></a>
+</p>
 
 ---
 
