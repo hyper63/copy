@@ -1,4 +1,4 @@
-name: 🏎 Test & Publish Adapter
+name: 🪞 Test & Publish
 
 on:
   pull_request:
