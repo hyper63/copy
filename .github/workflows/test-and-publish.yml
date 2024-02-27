@@ -1,0 +1,110 @@
+name: 🏎 Test & Publish Adapter
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+  # Perform a release using a workflow dispatch
+  workflow_dispatch:
+    inputs:
+    # See https://github.com/hyper63/hyper-ci-bump#inputs for available inputs for the bump action
+      version:
+        description: the semver version to bump to
+        required: true
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        deno-version: [1.x]
+
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 🦕 Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: ${{ matrix.deno-version }}
+
+      - name: ⚡ Run Tests
+        run: |
+          deno task test
+        env:
+          CI: true
+
+  bump:
+    # Releases are performed via a workflow dispatch
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    needs: [test]
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: 👀 Env
+        run: |
+          echo "Event name: ${{ github.event_name }}"
+          echo "Git ref:    ${{ github.ref }}"
+          echo "GH actor:   ${{ github.actor }}"
+          echo "SHA:        ${{ github.sha }}"
+          VER=`node --version`; echo "Node ver:   $VER"
+          VER=`npm --version`; echo "npm ver:    $VER"
+
+      - name: 🤓 Set Git User
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: ✊ Bump
+        id: bump
+        uses: hyper63/hyper-ci-bump@main
+        with:
+          bump-to: ${{ github.event.inputs.version }}
+
+      - name: ⬆️ Push
+        run: |
+          git push
+          git push --tags
+
+      - name: 🤖 Create Github Release
+        if: steps.bump.outputs.tag
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.bump.outputs.tag }}
+
+  publish:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    needs: [bump]
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 🛠 Build Executables
+        run: deno task compile
+        env:
+          CI: true
+
+      - name: 🤫 Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: 🗄 Upload Executables to S3
+        run: |
+          aws s3 cp --acl public-read ./hyper-copy s3://hyperland
+  
+          

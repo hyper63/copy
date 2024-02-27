@@ -1,1 +1,0 @@
-deno compile --import-map=./import_map.json --allow-net --unstable --no-check --output hyper-copy mod.js
