@@ -21,23 +21,33 @@
 
 ## Quick Start
 
+`hyper-copy` is a standalone executable to copy documents from a source [hyper `Data` `Service`](https://docs.hyper.io/docs/api-reference/rest/data.html) to a target [hyper `Data` `Service`](https://docs.hyper.io/docs/api-reference/rest/data.html). `hyper-copy` is great for copying data across hyper `Data` `Services` without having to interact with the underlying tech powering the service, the power of [Ports and Adapters](https://docs.hyper.io/docs/concepts/clean-cloud-architecture.html).
+
 > First, make sure you've
 > [created your destination hyper `Data` `Service`](https://docs.hyper.io/docs/api-reference/rest/data.html#create-a-data-service)
 
 ```sh
+# Linux
 curl -O https://hyperland.s3.amazonaws.com/hyper-copy
+
+# Apple x86_64
+curl -O https://hyperland.s3.amazonaws.com/hyper-copy-x86_64-apple-darwin
+
+# Apple aarch64 (M1)
+curl -O https://hyperland.s3.amazonaws.com/hyper-copy-aarch64-apple-darwin
+
+# Windows
+curl -O https://hyperland.s3.amazonaws.com/hyper-copy-x86_64-pc-windows-msvc.exe
+
+# Make it executable if needed
 chmod +x hyper-copy
+
+# Copy your documents
 hyper-copy [SRC_CONNECTION_STRING] [TARGET_CONNECTION_STRING]
 ```
 
 `hyper-copy` will copy documents from `SRC_CONNECTION_STRING` to `TARGET_CONNECTION_STRING`, `1000`
 at a time, until all documents have been copied.
-
-## Requirements
-
-- Linux x64 Environment
-
-> If there is interest in creating binaries for other enviroments, please submit an issue.
 
 ## Example
 

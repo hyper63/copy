@@ -3,7 +3,7 @@
   "description": "Copy documents from one hyper Data Service to another hyper Data Service",
   "tasks": {
     "cache": "deno cache --lock=deno.lock --lock-write ./deps.js",
-    "compile": "deno compile --allow-net --unstable --no-check --output hyper-copy mod.js",
+    "compile": "make clean compile-linux compile-apple compile-arch-apple compile-windows",
     "prepare": "deno run -A --no-lock npm:husky@^9",
     "staged": "deno run -A --no-lock npm:lint-staged@^15",
     "test": "deno lint && deno test --no-lock -A"
